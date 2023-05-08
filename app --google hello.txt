@@ -1,0 +1,31 @@
+const express = require('express');
+const puppeteer = require('puppeteer');
+const app = express();
+
+// 1 async () =>{}
+
+// 2 async function funname( ){}
+
+// 3 const fun = async () => { }
+
+
+(
+    async () => {
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.goto('https://www.youtube.com');
+        // await page.type('textarea.gLFyf', 'Hello');
+        await page.type('input[name="search_query"]', 'Hello');
+        await page.keyboard.press('Enter');
+        await page.waitForNavigation({ timeout: 3000 })
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await page.screenshot({ path: './pages/example.png' });
+
+
+        await browser.close();
+
+
+    }
+)();
+
+

@@ -1,0 +1,53 @@
+const express = require('express');
+const puppeteer = require('puppeteer');
+const app = express();
+
+// 1 async () =>{}
+
+// 2 async function funname( ){}
+
+// 3 const fun = async () => { }
+
+
+(async () => {
+    const browser = await puppeteer.launch({ args: ['--disable-setuid-sandbox', '--no-sandbox'] });
+    const page = await browser.newPage();
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36');
+    await page.goto('https://www.nseindia.com/api/option-chain-indices?symbol=NIFTY');
+    console.log('Page loaded successfully!');
+    const scrollPercent = 0.7;
+
+    await page.evaluate((scrollPercent) => {
+        window.scrollTo(0, scrollPercent * document.body.scrollHeight);
+    }, scrollPercent);
+    console.log('scroll over');
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    console.log('Timeout over');
+    await page.screenshot({ path: './pages/example.png' });
+    console.log('Screenshot saved successfully!');
+    await browser.close();
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
